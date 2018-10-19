@@ -23,10 +23,8 @@ def load_room_availability():
     file = open(FILE, 'r')
     for room in file:
         event_details = room.strip().split(',')
-        booking_start = event_details[0]
-        booking_start_as_number = convert_to_24_hr_time(booking_start)
-        booking_end = event_details[1]
-        booking_end_as_number = convert_to_24_hr_time(booking_end)
+        booking_start_as_number = convert_to_24_hr_time(event_details[0])
+        booking_end_as_number = convert_to_24_hr_time(event_details[1])
         room_number = event_details[2]
         room_availabilities.append([booking_start_as_number, booking_end_as_number, room_number])
     file.close()
@@ -58,23 +56,18 @@ def get_available_room(room_list, time):
 
 def main():
     room_list = load_room_availability()
-    nine_am_room = get_available_room(room_list, 900)
-    ten_am_room = get_available_room(room_list, 1000)
-    eleven_am_room = get_available_room(room_list, 1100)
-    twelve__pm_room = get_available_room(room_list, 1200)
-    one_pm_room = get_available_room(room_list, 1300)
     available_room_checklist = list()
-    available_room_checklist.append(nine_am_room)
-    available_room_checklist.append(ten_am_room)
-    available_room_checklist.append(eleven_am_room)
-    available_room_checklist.append(twelve__pm_room)
-    available_room_checklist.append(one_pm_room)
+    available_room_checklist.append(get_available_room(room_list, 900))
+    available_room_checklist.append(get_available_room(room_list, 1000))
+    available_room_checklist.append(get_available_room(room_list, 1100))
+    available_room_checklist.append(get_available_room(room_list, 1200))
+    available_room_checklist.append(get_available_room(room_list, 1300))
     room_list_output = open(ROOM_OUTPUT, 'w')
     number = 9
     for rooms in available_room_checklist:
         room_list_output.write("{}:\n {}\n".format(number, rooms))
         number += 1
-
+        print(rooms)
     room_list_output.close()
 
 main()
