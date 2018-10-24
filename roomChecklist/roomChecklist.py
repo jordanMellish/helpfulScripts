@@ -7,6 +7,11 @@ Author: Jordan Mellish
 FILE = "room_availability.csv"
 ROOM_OUTPUT = 'final_room_availability_list.csv'
 
+NINE_AM_ROOM = []
+TEN_AM_ROOM = []
+ELEVEN_AM_ROOM = []
+TWELVE_AM_ROOM = []
+ONE_PM_ROOM = []
 
 AV_ROOMS = ['001-203', '002-101', '002-102', '002-103', '002-104', '002-107', '004-006', '004-132', '004-225',
             '005-001', '009-001', '009-002', '014-001', '014-006', '014-201', '015-003', '015-012', '015-014',
@@ -17,6 +22,28 @@ AV_ROOMS = ['001-203', '002-101', '002-102', '002-103', '002-104', '002-107', '0
             '134-132', '142-020', '142-021', '142-022', '142-023', '142-033', '142-101A', '142-101B', '142-101C',
             '142-110A', '142-110B', '142-111', '142-202', '142-233', '142-234', '142-302', '142-338', '145-030',
             '145-032', '301-001', '301-002', '301-007']
+
+def main():
+    available_room_checklist = list()
+    room_list = load_room_availability()
+    available_room_checklist.append(get_available_room(room_list, 800))
+    available_room_checklist.append(get_available_room(room_list, 900))
+    available_room_checklist.append(get_available_room(room_list, 1000))
+    available_room_checklist.append(get_available_room(room_list, 1100))
+    available_room_checklist.append(get_available_room(room_list, 1200))
+    available_room_checklist.append(get_available_room(room_list, 1300))
+    available_room_checklist.append(get_available_room(room_list, 1400))
+    available_room_checklist.append(get_available_room(room_list, 1500))
+    available_room_checklist.append(get_available_room(room_list, 1600))
+    available_room_checklist.append(get_available_room(room_list, 1700))
+    room_list_output = open(ROOM_OUTPUT, 'w')
+    number = 8
+    for rooms in available_room_checklist:
+        room_list_output.write("{}:\n {}\n".format(number, rooms))
+        number += 1
+        # print(rooms)
+    room_list_output.close()
+
 
 def load_room_availability():
     room_availabilities = []
@@ -43,31 +70,20 @@ def convert_to_24_hr_time(time):
 
 
 def get_available_room(room_list, time):
+    rooms_booked = []
     available_rooms = []
     for room in room_list:
         start = room[0]
         end = room[1]
         room_number = room[2]
-        if time not in range(start, end) and room_number not in available_rooms and room_number in AV_ROOMS:
+        if time in range(start, end) and room not in rooms_booked:
             # if time not in range(start,end) and room_number not in available_rooms:
-            available_rooms.append(room_number)
+            rooms_booked.append(room_number)
+    for room in AV_ROOMS:
+        if room not in rooms_booked:
+            available_rooms.append(room)
+    print("rooms booked:")
+    print(rooms_booked)
     return available_rooms
-
-
-def main():
-    room_list = load_room_availability()
-    available_room_checklist = list()
-    available_room_checklist.append(get_available_room(room_list, 900))
-    available_room_checklist.append(get_available_room(room_list, 1000))
-    available_room_checklist.append(get_available_room(room_list, 1100))
-    available_room_checklist.append(get_available_room(room_list, 1200))
-    available_room_checklist.append(get_available_room(room_list, 1300))
-    room_list_output = open(ROOM_OUTPUT, 'w')
-    number = 9
-    for rooms in available_room_checklist:
-        room_list_output.write("{}:\n {}\n".format(number, rooms))
-        number += 1
-        print(rooms)
-    room_list_output.close()
 
 main()
