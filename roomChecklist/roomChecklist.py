@@ -1,17 +1,11 @@
 """
-Small program to create a list of Available rooms from 9am - 1pm
+Small program to create a list of Available rooms from 8am - 5pm
 
 Author: Jordan Mellish
 """
 
 FILE = "room_availability.csv"
 ROOM_OUTPUT = 'final_room_availability_list.csv'
-
-NINE_AM_ROOM = []
-TEN_AM_ROOM = []
-ELEVEN_AM_ROOM = []
-TWELVE_AM_ROOM = []
-ONE_PM_ROOM = []
 
 AV_ROOMS = ['001-203', '002-101', '002-102', '002-103', '002-104', '002-107', '004-006', '004-132', '004-225',
             '005-001', '009-001', '009-002', '014-001', '014-006', '014-201', '015-003', '015-012', '015-014',
