@@ -23,6 +23,17 @@ AV_ROOMS = ['001-203', '002-101', '002-102', '002-103', '002-104', '002-107', '0
             '142-110A', '142-110B', '142-111', '142-202', '142-233', '142-234', '142-302', '142-338', '145-030',
             '145-032', '301-001', '301-002', '301-007']
 
+"""
+50 room interval, for list selection max.
+001-021. 017-201 - done 
+018-002A - 039 - 026 - done 
+039-028 - 045 - 002 - done
+046-002 - 081-001 - done
+082-001 - 142-110B 
+142-111 - 302-009
+"""
+
+
 def main():
     available_room_checklist = list()
     room_list = load_room_availability()
@@ -41,7 +52,6 @@ def main():
     for rooms in available_room_checklist:
         room_list_output.write("{}:\n {}\n".format(number, rooms))
         number += 1
-        # print(rooms)
     room_list_output.close()
 
 
@@ -63,6 +73,8 @@ def convert_to_24_hr_time(time):
     if time[-2] == "p":
         new_time = time.replace("pm", "", )
         time_as_number = int(new_time) + 1200
+        if time_as_number == 2400:
+            time_as_number = 1200
     else:
         new_time = time.replace("am", "")
         time_as_number = int(new_time)
@@ -82,8 +94,7 @@ def get_available_room(room_list, time):
     for room in AV_ROOMS:
         if room not in rooms_booked:
             available_rooms.append(room)
-    print("rooms booked:")
-    print(rooms_booked)
     return available_rooms
+
 
 main()
