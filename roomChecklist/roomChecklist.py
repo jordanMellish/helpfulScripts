@@ -9,7 +9,7 @@ ROOM_OUTPUT = 'final_room_availability_list.csv'
 
 AV_ROOMS = ['001-203', '002-101', '002-102', '002-103', '002-104', '002-107', '004-006', '004-132', '004-225',
             '005-001', '009-001', '009-002', '014-001', '014-006', '014-201', '015-003', '015-012', '015-014',
-            '015-113', '015-133', '015-143', '015-144', '017-064', '017-101', '017-131', '017-201', '018-002A',
+            '015-133', '015-143', '015-144', '017-064', '017-101', '017-131', '017-201', '018-002A',
             '018-002B', '018-002C', '025-001', '025-002', '025-005', '025-006', '026-002', '027-001', '027-002',
             '027-003', '027-004', '027-005', '27-007', '027-209', '034-011C', '034-020', '034-201', '040-103',
             '040-105', '040-109', '045-002', '110-002', '134-010', '134-021', '134-102', '134-105', '134-130',
@@ -25,26 +25,23 @@ AV_ROOMS = ['001-203', '002-101', '002-102', '002-103', '002-104', '002-107', '0
 046-002 - 081-001 - done
 082-001 - 142-110B 
 142-111 - 302-009
+
+50 room interval - if just highlighting AV rooms
+001-203  - 134-010
+134-021 - 301-007
 """
 
 
 def main():
     available_room_checklist = list()
     room_list = load_room_availability()
-    available_room_checklist.append(get_available_room(room_list, 800))
-    available_room_checklist.append(get_available_room(room_list, 900))
-    available_room_checklist.append(get_available_room(room_list, 1000))
-    available_room_checklist.append(get_available_room(room_list, 1100))
-    available_room_checklist.append(get_available_room(room_list, 1200))
-    available_room_checklist.append(get_available_room(room_list, 1300))
-    available_room_checklist.append(get_available_room(room_list, 1400))
-    available_room_checklist.append(get_available_room(room_list, 1500))
-    available_room_checklist.append(get_available_room(room_list, 1600))
-    available_room_checklist.append(get_available_room(room_list, 1700))
+    for i in range(800, 1800, 100):
+        available_room_checklist.append(get_available_room(room_list, i))
     room_list_output = open(ROOM_OUTPUT, 'w')
     number = 8
     for rooms in available_room_checklist:
-        room_list_output.write("{}:\n {}\n".format(number, rooms))
+        output = ",".join(rooms)
+        room_list_output.write("{}:\n {}\n".format(number, output))
         number += 1
     room_list_output.close()
 
